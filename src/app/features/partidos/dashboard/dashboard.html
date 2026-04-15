@@ -1,0 +1,24 @@
+<section class="tablon-container">
+  <h2>Ofertas de Partidos para: {{ miPosicionActual }}</h2>
+
+  @if (partidos$ | async; as partidos) {
+    
+    @if (partidos.length === 0) {
+      <p class="empty-state">No hay partidos buscando tu posición. Vuelve más tarde.</p>
+    } @else {
+      <div class="grid-partidos">
+        @for (partido of partidos; track partido.id) {
+          <article class="partido-card">
+            <h3>⚽ {{ partido.ubicacion }}</h3>
+            <p><strong>Fecha:</strong> {{ partido.fecha | date:'short' }}</p>
+            <p><strong>Faltan:</strong> {{ partido.posiciones_necesitadas.join(', ') }}</p>
+            <button class="btn-apuntarse">Me apunto</button>
+          </article>
+        }
+      </div>
+    }
+
+  } @else {
+    <div class="loading">Cargando mercado de fichajes...</div>
+  }
+</section>
