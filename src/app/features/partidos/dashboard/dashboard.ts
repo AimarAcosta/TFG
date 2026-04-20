@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatchmakingService, Partido } from '../../../core/services/matchmaking/matchmaking';
 import { Observable } from 'rxjs';
@@ -7,16 +7,15 @@ import { Observable } from 'rxjs';
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css'
+  templateUrl: './dashboard.html'
 })
 export class Dashboard implements OnInit {
   private matchmakingService = inject(MatchmakingService);
-  
-  partidos$!: Observable<Partido[]>;
-  miPosicionActual = 'Portero';
 
-  ngOnInit(): void {
+  partidos$!: Observable<Partido[]>;
+  miPosicionActual: string = 'Portero';
+
+  ngOnInit() {
     this.partidos$ = this.matchmakingService.getPartidosParaPosicion(this.miPosicionActual);
   }
 }
