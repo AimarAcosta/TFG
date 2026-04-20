@@ -1,13 +1,15 @@
 <div class="dashboard-layout">
   <header class="navbar">
     <div class="nav-brand">⚽ Matchday Hero</div>
-    <button class="btn-outline" (click)="logout()">Cerrar Sesión</button>
+    <div style="display: flex; gap: 1rem;">
+      <button class="btn" (click)="irACrearPartido()">+ Organizar Partido</button>
+      <button class="btn-outline" (click)="logout()">Cerrar Sesión</button>
+    </div>
   </header>
 
   <main class="container">
     <div class="page-header">
       <h2>Mercado de Partidos</h2>
-      <div class="badge-posicion">Buscando puesto de: <span>{{ miPosicionActual }}</span></div>
     </div>
 
     @if (partidos$ | async; as partidos) {

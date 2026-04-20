@@ -1,10 +1,11 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, Injector, runInInjectionContext } from '@angular/core';
 import { 
   Firestore, 
   collection, 
   query, 
   where, 
-  collectionData 
+  collectionData,
+  addDoc // <-- 1. Añadimos esta importación
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
@@ -21,16 +22,22 @@ export interface Partido {
 })
 export class MatchmakingService {
   private readonly firestore: Firestore = inject(Firestore);
+  private readonly injector: Injector = inject(Injector);
 
   getPartidosParaPosicion(posicion: string): Observable<Partido[]> {
+    return runInInjectionContext(this.injector, () => {
+      const partidosRef = collection(this.firestore, 'partidos');
+      const q = query(
+        partidosRef, 
+        where('estado', '==', 'abierto'),
+        where('posiciones_necesitadas', 'array-contains', posicion)
+      );
+      return collectionData(q, { idField: 'id' }) as Observable<Partido[]>;
+    });
+  }
+
+  async crearPartido(nuevoPartido: Partido): Promise<any> {
     const partidosRef = collection(this.firestore, 'partidos');
-    
-    const q = query(
-      partidosRef, 
-      where('estado', '==', 'abierto'),
-      where('posiciones_necesitadas', 'array-contains', posicion)
-    );
-    
-    return collectionData(q, { idField: 'id' }) as Observable<Partido[]>;
+    return await addDoc(partidosRef, nuevoPartido);
   }
 }

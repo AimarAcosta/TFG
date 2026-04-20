@@ -24,9 +24,12 @@ export class Dashboard implements OnInit {
     this.partidos$ = this.matchmakingService.getPartidosParaPosicion(this.miPosicionActual);
   }
 
-  // Función para cerrar sesión y volver a la puerta
   async logout() {
     await this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  irACrearPartido() {
+    this.router.navigate(['/crear-partido']);
   }
 }
