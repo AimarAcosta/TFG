@@ -6,9 +6,10 @@ import {
   Partido,
 } from "../../../core/services/matchmaking/matchmaking";
 import { AuthService } from "../../../core/services/auth/auth";
-import { Auth } from "@angular/fire/auth"; 
-import { UsuarioService } from '../../../core/services/usuario/usuario';
-import { Observable } from "rxjs";
+import { Auth, authState } from "@angular/fire/auth";
+import { UsuarioService } from "../../../core/services/usuario/usuario";
+import { Observable, from, of } from "rxjs";
+import { switchMap, filter, catchError } from "rxjs/operators";
 
 @Component({
   selector: "app-dashboard",
@@ -28,14 +29,24 @@ export class Dashboard implements OnInit {
   miPosicionActual: string = "Portero";
   usuarioEmail: string = "";
 
-  async ngOnInit() {
-  this.usuarioEmail = this.auth.currentUser?.email || '';
-  
-  const perfil = await this.usuarioService.getPerfil();
-  this.miPosicionActual = perfil?.posicion_preferida || 'Portero'; 
-  
-  this.partidos$ = this.matchmakingService.getPartidosParaPosicion(this.miPosicionActual);
-}
+  ngOnInit() {
+    this.partidos$ = authState(this.auth).pipe(
+      filter((user) => user !== null),
+      switchMap((user) => {
+        this.usuarioEmail = user!.email || "";
+        return from(this.usuarioService.getPerfil()).pipe(
+          catchError(() => of(null)),
+        );
+      }),
+      switchMap((perfil) => {
+        this.miPosicionActual = perfil?.posicion_preferida || "Portero";
+
+        return this.matchmakingService.getPartidosParaPosicion(
+          this.miPosicionActual,
+        );
+      }),
+    );
+  }
 
   yaEstaInscrito(partido: Partido): boolean {
     if (!partido.jugadores_inscritos || !this.usuarioEmail) return false;
