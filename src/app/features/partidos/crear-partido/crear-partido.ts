@@ -36,7 +36,7 @@ export class CrearPartido {
 
     try {
       await this.matchmakingService.crearPartido(nuevoPartido);
-      this.router.navigate(['/dashboard']); 
+      this.router.navigate(['/app/dashboard']); 
     } catch (error) {
       console.error('Error al crear el partido:', error);
     } finally {
@@ -45,6 +45,6 @@ export class CrearPartido {
   }
 
   cancelar() {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/app/dashboard']);
   }
 }

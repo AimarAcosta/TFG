@@ -1,14 +1,26 @@
 import { Routes } from '@angular/router';
 import { Login } from './features/auth/login/login';
 import { Dashboard } from './features/partidos/dashboard/dashboard';
+import { CrearPartido } from './features/partidos/crear-partido/crear-partido';
+import { Perfil } from './features/perfil/perfil';
+import { MainLayout } from './core/layout/main-layout/main-layout';
 import { AuthGuard } from './core/guards/auth/auth-guard';
 import { NotFound } from './shared/components/not-found/not-found';
-import { CrearPartido } from './features/partidos/crear-partido/crear-partido';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'app/dashboard', pathMatch: 'full' },
   { path: 'login', component: Login },
-  { path: 'dashboard', component: Dashboard, canActivate: [AuthGuard] },
-  { path: 'crear-partido', component: CrearPartido, canActivate: [AuthGuard] },
+
+  {
+    path: 'app',
+    component: MainLayout,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'dashboard', component: Dashboard },
+      { path: 'crear-partido', component: CrearPartido },
+      { path: 'perfil', component: Perfil },
+    ],
+  },
+
   { path: '**', component: NotFound },
 ];

@@ -6,7 +6,8 @@ import {
   Partido,
 } from "../../../core/services/matchmaking/matchmaking";
 import { AuthService } from "../../../core/services/auth/auth";
-import { Auth } from "@angular/fire/auth"; // <-- Añade esta importación
+import { Auth } from "@angular/fire/auth"; 
+import { UsuarioService } from '../../../core/services/usuario/usuario';
 import { Observable } from "rxjs";
 
 @Component({
@@ -14,24 +15,27 @@ import { Observable } from "rxjs";
   standalone: true,
   imports: [CommonModule],
   templateUrl: "./dashboard.html",
-  styleUrl: "./dashboard.css",
+  styleUrls: ["./dashboard.css"],
 })
 export class Dashboard implements OnInit {
   private matchmakingService = inject(MatchmakingService);
   private authService = inject(AuthService);
   private auth = inject(Auth);
   private router = inject(Router);
+  private usuarioService = inject(UsuarioService);
 
   partidos$!: Observable<Partido[]>;
   miPosicionActual: string = "Portero";
   usuarioEmail: string = "";
 
-  ngOnInit() {
-    this.usuarioEmail = this.auth.currentUser?.email || "";
-    this.partidos$ = this.matchmakingService.getPartidosParaPosicion(
-      this.miPosicionActual,
-    );
-  }
+  async ngOnInit() {
+  this.usuarioEmail = this.auth.currentUser?.email || '';
+  
+  const perfil = await this.usuarioService.getPerfil();
+  this.miPosicionActual = perfil?.posicion_preferida || 'Portero'; 
+  
+  this.partidos$ = this.matchmakingService.getPartidosParaPosicion(this.miPosicionActual);
+}
 
   yaEstaInscrito(partido: Partido): boolean {
     if (!partido.jugadores_inscritos || !this.usuarioEmail) return false;

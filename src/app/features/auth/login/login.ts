@@ -28,7 +28,7 @@ export class Login {
 
     try {
       await this.authService.login(this.email, this.password);
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/app/dashboard']);
     } catch (error: any) {
       this.errorMessage = 'Credenciales incorrectas. Fichaje denegado.';
     } finally {
