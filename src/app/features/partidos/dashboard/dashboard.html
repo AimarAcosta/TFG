@@ -1,23 +1,52 @@
-<div class="dashboard-container">
-  <h2>Ofertas de Partidos para: {{ miPosicionActual }}</h2>
+<div class="dashboard-layout">
+  <header class="navbar">
+    <div class="nav-brand">⚽ Matchday Hero</div>
+    <button class="btn-outline" (click)="logout()">Cerrar Sesión</button>
+  </header>
 
-  @if (partidos$ | async; as partidos) {
-    
-    @if (partidos.length === 0) {
-      <p>No hay partidos disponibles para esta posición en este momento.</p>
+  <main class="container">
+    <div class="page-header">
+      <h2>Mercado de Partidos</h2>
+      <div class="badge-posicion">Buscando puesto de: <span>{{ miPosicionActual }}</span></div>
+    </div>
+
+    @if (partidos$ | async; as partidos) {
+      
+      @if (partidos.length === 0) {
+        <div class="empty-state">
+          <div class="empty-icon">🏟️</div>
+          <h3>El campo está vacío</h3>
+          <p>No hemos encontrado partidos buscando un {{ miPosicionActual }} en este momento.</p>
+        </div>
+      } @else {
+        <div class="grid-partidos">
+          @for (partido of partidos; track partido.id) {
+            <div class="card-partido">
+              <div class="card-header">
+                <span class="status-badge open">🟢 Abierto</span>
+                <span class="fecha">{{ partido.fecha }}</span>
+              </div>
+              <div class="card-body">
+                <h3 class="ubicacion">{{ partido.ubicacion }}</h3>
+                <p class="posiciones-label">Posiciones buscadas:</p>
+                <div class="tags">
+                  @for (pos of partido.posiciones_necesitadas; track pos) {
+                    <span class="tag">{{ pos }}</span>
+                  }
+                </div>
+              </div>
+              <div class="card-footer">
+                <button class="btn full-width">Solicitar Fichaje</button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
     } @else {
-      <div class="partidos-grid">
-        @for (partido of partidos; track partido.id) {
-          <div class="partido-card">
-            <h3>{{ partido.ubicacion }}</h3>
-            <p>Fecha: {{ partido.fecha }}</p>
-            <p>Estado: {{ partido.estado }}</p>
-          </div>
-        }
+      <div class="loading-state">
+        <p>Escaneando el mercado...</p>
       </div>
     }
-
-  } @else {
-    <p>Cargando mercado de fichajes...</p>
-  }
+  </main>
 </div>

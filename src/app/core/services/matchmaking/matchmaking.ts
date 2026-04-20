@@ -20,7 +20,6 @@ export interface Partido {
   providedIn: 'root'
 })
 export class MatchmakingService {
-  // Inyectamos la instancia de Firestore que configuramos en app.config.ts
   private readonly firestore: Firestore = inject(Firestore);
 
   getPartidosParaPosicion(posicion: string): Observable<Partido[]> {
