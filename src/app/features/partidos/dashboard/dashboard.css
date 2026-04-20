@@ -140,3 +140,11 @@
 .empty-state p {
   color: var(--text-muted);
 }
+
+.btn-success {
+  background-color: var(--border); /* Un color neutro/apagado */
+  color: var(--primary);
+  cursor: default !important;
+  opacity: 1 !important;
+  border: 1px solid var(--primary);
+}

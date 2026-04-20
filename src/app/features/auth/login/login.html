@@ -4,25 +4,45 @@
       <span class="icon">⚽</span>
       <h1>Matchday Hero</h1>
     </div>
-    
+
     <p class="subtitle">Entra al mercado de fichajes</p>
 
     @if (errorMessage) {
-      <div class="alert-error">{{ errorMessage }}</div>
+    <div class="alert-error">{{ errorMessage }}</div>
     }
 
     <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
       <div class="form-group">
         <label for="email">Correo electrónico</label>
-        <input type="email" id="email" name="email" [(ngModel)]="email" class="input-field" placeholder="jugador@ejemplo.com" required>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="email"
+          class="input-field"
+          placeholder="jugador@ejemplo.com"
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="password">Contraseña</label>
-        <input type="password" id="password" name="password" [(ngModel)]="password" class="input-field" placeholder="••••••••" required>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          class="input-field"
+          placeholder="••••••••"
+          required
+        />
       </div>
 
-      <button type="submit" class="btn full-width" [disabled]="isLoading || !loginForm.form.valid">
+      <button
+        type="submit"
+        class="btn full-width"
+        [disabled]="isLoading || !loginForm.form.valid"
+      >
         {{ isLoading ? 'Comprobando tácticas...' : 'Saltar al campo' }}
       </button>
     </form>

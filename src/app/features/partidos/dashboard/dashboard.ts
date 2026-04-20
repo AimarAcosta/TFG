@@ -1,35 +1,63 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { MatchmakingService, Partido } from '../../../core/services/matchmaking/matchmaking';
-import { AuthService } from '../../../core/services/auth/auth';
-import { Observable } from 'rxjs';
+import { Component, OnInit, inject } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { Router } from "@angular/router";
+import {
+  MatchmakingService,
+  Partido,
+} from "../../../core/services/matchmaking/matchmaking";
+import { AuthService } from "../../../core/services/auth/auth";
+import { Auth } from "@angular/fire/auth"; // <-- Añade esta importación
+import { Observable } from "rxjs";
 
 @Component({
-  selector: 'app-dashboard',
+  selector: "app-dashboard",
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css' 
+  templateUrl: "./dashboard.html",
+  styleUrl: "./dashboard.css",
 })
 export class Dashboard implements OnInit {
   private matchmakingService = inject(MatchmakingService);
   private authService = inject(AuthService);
+  private auth = inject(Auth);
   private router = inject(Router);
 
   partidos$!: Observable<Partido[]>;
-  miPosicionActual: string = 'Portero';
+  miPosicionActual: string = "Portero";
+  usuarioEmail: string = "";
 
   ngOnInit() {
-    this.partidos$ = this.matchmakingService.getPartidosParaPosicion(this.miPosicionActual);
+    this.usuarioEmail = this.auth.currentUser?.email || "";
+    this.partidos$ = this.matchmakingService.getPartidosParaPosicion(
+      this.miPosicionActual,
+    );
+  }
+
+  yaEstaInscrito(partido: Partido): boolean {
+    if (!partido.jugadores_inscritos || !this.usuarioEmail) return false;
+    return partido.jugadores_inscritos.includes(this.usuarioEmail);
+  }
+
+  async solicitarFichaje(partido: Partido) {
+    if (!partido.id || !this.usuarioEmail) return;
+
+    try {
+      await this.matchmakingService.inscribirseEnPartido(
+        partido.id,
+        this.usuarioEmail,
+      );
+      console.log("¡Fichaje completado!");
+    } catch (error) {
+      console.error("Error al solicitar fichaje:", error);
+    }
   }
 
   async logout() {
     await this.authService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(["/login"]);
   }
 
   irACrearPartido() {
-    this.router.navigate(['/crear-partido']);
+    this.router.navigate(["/crear-partido"]);
   }
 }

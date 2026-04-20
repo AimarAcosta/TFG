@@ -10,5 +10,5 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'dashboard', component: Dashboard, canActivate: [AuthGuard] },
   { path: 'crear-partido', component: CrearPartido, canActivate: [AuthGuard] },
-  { path: '**', component: NotFound }
+  { path: '**', component: NotFound },
 ];

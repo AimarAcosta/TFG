@@ -9,7 +9,7 @@ import { AuthService } from '../../../core/services/auth/auth';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.css' 
+  styleUrl: './login.css',
 })
 export class Login {
   private authService = inject(AuthService);
@@ -22,7 +22,7 @@ export class Login {
 
   async onSubmit() {
     if (!this.email || !this.password) return;
-    
+
     this.isLoading = true;
     this.errorMessage = '';
 

@@ -4,8 +4,8 @@ import { RouterOutlet, RouterLink } from '@angular/router'; // <- ESTAS DOS SON 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink], 
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './main-layout.html',
-  styleUrl: './main-layout.css' 
+  styleUrl: './main-layout.css',
 })
 export class MainLayoutComponent {}

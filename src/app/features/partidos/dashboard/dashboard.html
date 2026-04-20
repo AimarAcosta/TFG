@@ -1,8 +1,10 @@
 <div class="dashboard-layout">
   <header class="navbar">
     <div class="nav-brand">⚽ Matchday Hero</div>
-    <div style="display: flex; gap: 1rem;">
-      <button class="btn" (click)="irACrearPartido()">+ Organizar Partido</button>
+    <div style="display: flex; gap: 1rem">
+      <button class="btn" (click)="irACrearPartido()">
+        + Organizar Partido
+      </button>
       <button class="btn-outline" (click)="logout()">Cerrar Sesión</button>
     </div>
   </header>
@@ -12,43 +14,50 @@
       <h2>Mercado de Partidos</h2>
     </div>
 
-    @if (partidos$ | async; as partidos) {
-      
-      @if (partidos.length === 0) {
-        <div class="empty-state">
-          <div class="empty-icon">🏟️</div>
-          <h3>El campo está vacío</h3>
-          <p>No hemos encontrado partidos buscando un {{ miPosicionActual }} en este momento.</p>
+    @if (partidos$ | async; as partidos) { @if (partidos.length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">🏟️</div>
+      <h3>El campo está vacío</h3>
+      <p>
+        No hemos encontrado partidos buscando un {{ miPosicionActual }} en este
+        momento.
+      </p>
+    </div>
+    } @else {
+    <div class="grid-partidos">
+      @for (partido of partidos; track partido.id) {
+      <div class="card-partido">
+        <div class="card-header">
+          <span class="status-badge open">🟢 Abierto</span>
+          <span class="fecha">{{ partido.fecha }}</span>
         </div>
-      } @else {
-        <div class="grid-partidos">
-          @for (partido of partidos; track partido.id) {
-            <div class="card-partido">
-              <div class="card-header">
-                <span class="status-badge open">🟢 Abierto</span>
-                <span class="fecha">{{ partido.fecha }}</span>
-              </div>
-              <div class="card-body">
-                <h3 class="ubicacion">{{ partido.ubicacion }}</h3>
-                <p class="posiciones-label">Posiciones buscadas:</p>
-                <div class="tags">
-                  @for (pos of partido.posiciones_necesitadas; track pos) {
-                    <span class="tag">{{ pos }}</span>
-                  }
-                </div>
-              </div>
-              <div class="card-footer">
-                <button class="btn full-width">Solicitar Fichaje</button>
-              </div>
-            </div>
+        <div class="card-body">
+          <h3 class="ubicacion">{{ partido.ubicacion }}</h3>
+          <p class="posiciones-label">Posiciones buscadas:</p>
+          <div class="tags">
+            @for (pos of partido.posiciones_necesitadas; track pos) {
+            <span class="tag">{{ pos }}</span>
+            }
+          </div>
+        </div>
+        <div class="card-footer">
+          @if (yaEstaInscrito(partido)) {
+          <button class="btn full-width btn-success" disabled>
+            ✅ Fichaje Confirmado
+          </button>
+          } @else {
+          <button class="btn full-width" (click)="solicitarFichaje(partido)">
+            Solicitar Fichaje
+          </button>
           }
         </div>
-      }
-
-    } @else {
-      <div class="loading-state">
-        <p>Escaneando el mercado...</p>
       </div>
+      }
+    </div>
+    } } @else {
+    <div class="loading-state">
+      <p>Escaneando el mercado...</p>
+    </div>
     }
   </main>
 </div>
