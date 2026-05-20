@@ -21,15 +21,24 @@ export class Login {
   isLoading = false;
 
   async onSubmit() {
-    if (!this.email || !this.password) return;
+    this.errorMessage = '';
+
+    if (!this.email || !this.password) {
+      this.errorMessage = 'Debes introducir tu correo y contraseña.';
+      return;
+    }
+    if (!this.email.includes('@')) {
+      this.errorMessage = 'Formato de correo inválido.';
+      return;
+    }
 
     this.isLoading = true;
-    this.errorMessage = '';
 
     try {
       await this.authService.login(this.email, this.password);
       this.router.navigate(['/app/dashboard']);
     } catch (error: any) {
+      console.error(error);
       this.errorMessage = 'Credenciales incorrectas. Fichaje denegado.';
     } finally {
       this.isLoading = false;

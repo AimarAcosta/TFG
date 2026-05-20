@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UsuarioService } from '../../core/services/usuario/usuario';
+import { IdiomaService } from '../../core/services/idioma/idioma';
 
 @Component({
   selector: 'app-perfil',

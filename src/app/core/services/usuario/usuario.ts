@@ -13,20 +13,20 @@ export class UsuarioService {
 
   private async esperarUsuario(): Promise<any> {
     return new Promise((resolve) => {
-      const unsubscribe = this.auth.onAuthStateChanged(user => {
-        unsubscribe(); 
+      const unsubscribe = this.auth.onAuthStateChanged((user) => {
+        unsubscribe();
         resolve(user);
       });
     });
   }
 
   async getPerfil(): Promise<PerfilUsuario | null> {
-    const user = await this.esperarUsuario(); 
+    const user = await this.esperarUsuario();
     if (!user) return null;
-    
+
     const docRef = doc(this.firestore, `users/${user.uid}`);
     const docSnap = await getDoc(docRef);
-    
+
     if (docSnap.exists()) {
       return docSnap.data() as PerfilUsuario;
     }
@@ -36,7 +36,7 @@ export class UsuarioService {
   async guardarPerfil(perfil: PerfilUsuario): Promise<void> {
     const user = await this.esperarUsuario();
     if (!user) throw new Error('No hay usuario autenticado');
-    
+
     const docRef = doc(this.firestore, `users/${user.uid}`);
     await setDoc(docRef, perfil, { merge: true });
   }

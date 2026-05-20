@@ -10,6 +10,7 @@ import { Auth, authState } from "@angular/fire/auth";
 import { UsuarioService } from "../../../core/services/usuario/usuario";
 import { Observable, from, of } from "rxjs";
 import { switchMap, filter, catchError } from "rxjs/operators";
+import { IdiomaService } from "../../../core/services/idioma/idioma";
 
 @Component({
   selector: "app-dashboard",
@@ -24,10 +25,14 @@ export class Dashboard implements OnInit {
   private auth = inject(Auth);
   private router = inject(Router);
   private usuarioService = inject(UsuarioService);
+  public idioma = inject(IdiomaService);
 
   partidos$!: Observable<Partido[]>;
   miPosicionActual: string = "Portero";
   usuarioEmail: string = "";
+
+  mostrarModalValoracion = false;
+  estrellasSeleccionadas = 0;
 
   ngOnInit() {
     this.partidos$ = authState(this.auth).pipe(
@@ -40,7 +45,6 @@ export class Dashboard implements OnInit {
       }),
       switchMap((perfil) => {
         this.miPosicionActual = perfil?.posicion_preferida || "Portero";
-
         return this.matchmakingService.getPartidosParaPosicion(
           this.miPosicionActual,
         );
@@ -55,24 +59,29 @@ export class Dashboard implements OnInit {
 
   async solicitarFichaje(partido: Partido) {
     if (!partido.id || !this.usuarioEmail) return;
-
     try {
       await this.matchmakingService.inscribirseEnPartido(
         partido.id,
         this.usuarioEmail,
       );
-      console.log("¡Fichaje completado!");
     } catch (error) {
       console.error("Error al solicitar fichaje:", error);
     }
   }
 
-  async logout() {
-    await this.authService.logout();
-    this.router.navigate(["/login"]);
+  abrirValoracion() {
+    this.mostrarModalValoracion = true;
+    this.estrellasSeleccionadas = 0;
   }
 
-  irACrearPartido() {
-    this.router.navigate(["/crear-partido"]);
+  cerrarValoracion() {
+    this.mostrarModalValoracion = false;
+  }
+
+  valorar(estrellas: number) {
+    this.estrellasSeleccionadas = estrellas;
+    setTimeout(() => {
+      this.cerrarValoracion();
+    }, 600);
   }
 }
