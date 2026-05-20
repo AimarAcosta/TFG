@@ -5,12 +5,15 @@
 }
 
 .sidebar {
-  width: 260px;
   background-color: var(--bg-card);
   border-right: 1px solid var(--border);
+  padding: 2rem;
+  width: 280px;
   display: flex;
   flex-direction: column;
-  padding: 2rem 1rem;
+  height: 100vh;
+  position: sticky;
+  top: 0;
 }
 
 .brand-sidebar {
@@ -24,8 +27,8 @@
 .nav-menu {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  flex-grow: 1;
+  gap: 1rem;
+  flex-grow: 1; 
 }
 
 .nav-item {
@@ -49,17 +52,16 @@
 }
 
 .logout-sidebar {
-  margin-top: auto;
-  width: 100%;
-  padding: 1rem;
-  border-radius: 50px;
-  border: 2px solid rgba(239, 68, 68, 0.4);
-  color: var(--danger);
-  background-color: transparent;
-  font-weight: 700;
-  font-size: 1rem;
+  margin-top: auto; 
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  width: 100%;
 }
 
 .logout-sidebar:hover {

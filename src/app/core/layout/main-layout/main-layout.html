@@ -1,15 +1,36 @@
-<div class="app-container">
-  <header class="navbar">
-    <div class="logo">
-      <h1>⚽ MatchDay Hero</h1>
-    </div>
-    <nav class="nav-links">
-      <a routerLink="/dashboard">Mercado de Partidos</a>
-      <a routerLink="/login" class="btn-login">Acceder</a>
+<div class="layout-container">
+  <aside class="sidebar">
+    <div class="brand-sidebar">⚽ MatchDay Hero</div>
+    <nav class="nav-menu">
+      <a routerLink="/app/dashboard" routerLinkActive="active" class="nav-item">
+        🏟️ {{ idioma.idiomaActual() === 'ES' ? 'Mercado' : 'Merkatua' }}
+      </a>
+      <a routerLink="/app/crear-partido" routerLinkActive="active" class="nav-item">
+        ➕ {{ idioma.idiomaActual() === 'ES' ? 'Organizar' : 'Antolatu' }}
+      </a>
+      <a routerLink="/app/perfil" routerLinkActive="active" class="nav-item">
+        👤 {{ idioma.idiomaActual() === 'ES' ? 'Mi Perfil' : 'Nire Profila' }}
+      </a>
     </nav>
-  </header>
 
-  <main class="content-wrapper">
+    <div class="user-footer" style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border);">
+      @if (currentUser) {
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+          {{ currentUser.email }}
+        </div>
+      }
+      <button class="logout-sidebar" (click)="logout()">
+        {{ idioma.idiomaActual() === 'ES' ? 'Cerrar Sesión' : 'Saioa Itxi' }}
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div style="display: flex; justify-content: flex-end; padding: 1rem 2rem 0;">
+      <button class="btn" style="padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;" (click)="idioma.toggle()">
+        🌐 {{ idioma.idiomaActual() }} / {{ idioma.idiomaActual() === 'ES' ? 'EU' : 'ES' }}
+      </button>
+    </div>
     <router-outlet></router-outlet>
   </main>
 </div>

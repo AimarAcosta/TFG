@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatchmakingService, Partido } from '../../../core/services/matchmaking/matchmaking';
+import { IdiomaService } from '../../../core/services/idioma/idioma';
 
 @Component({
   selector: 'app-crear-partido',
@@ -14,6 +15,7 @@ import { MatchmakingService, Partido } from '../../../core/services/matchmaking/
 export class CrearPartido {
   private matchmakingService = inject(MatchmakingService);
   private router = inject(Router);
+  public idioma = inject(IdiomaService);
 
   ubicacion = '';
   fecha = '';

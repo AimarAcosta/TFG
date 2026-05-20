@@ -25,4 +25,8 @@ export class AuthService {
   logout(): Observable<void> {
     return from(signOut(this.auth));
   }
+
+  getCurrentUser() {
+    return this.auth.currentUser;
+  }
 }
