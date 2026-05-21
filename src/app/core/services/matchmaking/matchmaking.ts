@@ -24,6 +24,7 @@ export interface Partido {
   estado: string;
   posiciones_necesitadas: string[];
   jugadores_inscritos?: string[];
+  creador_email?: string;
 }
 
 @Injectable({

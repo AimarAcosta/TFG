@@ -1,10 +1,56 @@
 <div class="dashboard-layout">
   <main class="container">
-    <div class="page-header">
+    <div class="page-header" style="margin-bottom: 1.5rem">
       <h2>
         {{ idioma.idiomaActual() === 'ES' ? 'Mercado de Partidos' : 'Partiden
         Merkatua' }}
       </h2>
+    </div>
+
+    <div
+      style="
+        margin-bottom: 2rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        background: var(--bg-card);
+        padding: 1rem;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+      "
+    >
+      <label
+        style="
+          font-weight: bold;
+          color: var(--text-muted);
+          font-size: 0.9rem;
+          white-space: nowrap;
+        "
+      >
+        📍 {{ idioma.idiomaActual() === 'ES' ? 'Filtrar por zona:' : 'Iragazi
+        eremuaren arabera:' }}
+      </label>
+      <select
+        (change)="onFiltroChange($event)"
+        class="input-field"
+        style="
+          max-width: 350px;
+          background-color: var(--bg-main);
+          color: var(--text-main);
+          border: 1px solid var(--border);
+          padding: 0.5rem;
+          border-radius: 8px;
+          cursor: pointer;
+        "
+      >
+        <option value="">
+          ✨ {{ idioma.idiomaActual() === 'ES' ? 'Ver todos los polideportivos'
+          : 'Ikusi polikiroldegi guztiak' }}
+        </option>
+        @for (ubi of ubicaciones; track ubi) {
+        <option [value]="ubi">{{ ubi }}</option>
+        }
+      </select>
     </div>
 
     @if (partidos$ | async; as partidos) { @if (partidos.length === 0) {
@@ -15,9 +61,9 @@
         hutsik dago' }}
       </h3>
       <p>
-        {{ idioma.idiomaActual() === 'ES' ? 'No hemos encontrado partidos
-        buscando un' : 'Ez dugu partidarik aurkitu posizio honentzat:' }} {{
-        miPosicionActual }}
+        {{ idioma.idiomaActual() === 'ES' ? 'No hay partidos disponibles para
+        los criterios seleccionados.' : 'Ez dago partidarik erabilgarri
+        hautatutako baldintzetarako.' }}
       </p>
     </div>
     } @else {
@@ -56,7 +102,7 @@
           <button
             class="btn full-width"
             style="background-color: #f59e0b; color: white"
-            (click)="abrirValoracion()"
+            (click)="abrirValoracion(partido)"
           >
             ⭐ {{ idioma.idiomaActual() === 'ES' ? 'Valorar Compañeros' :
             'Taldekideak Baloratu' }}

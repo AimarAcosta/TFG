@@ -1,12 +1,13 @@
 import { Routes } from '@angular/router';
 import { Login } from './features/auth/login/login';
-import { Register } from './features/auth/register/register'; // <-- AÑADIMOS ESTO
+import { Register } from './features/auth/register/register'; 
 import { Dashboard } from './features/partidos/dashboard/dashboard';
 import { CrearPartido } from './features/partidos/crear-partido/crear-partido';
 import { Perfil } from './features/perfil/perfil';
 import { MainLayout } from './core/layout/main-layout/main-layout';
 import { AuthGuard } from './core/guards/auth/auth-guard';
 import { NotFound } from './shared/components/not-found/not-found';
+import { Notificaciones } from './features/notificaciones/notificaciones';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'app/dashboard', pathMatch: 'full' },
@@ -21,6 +22,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: Dashboard },
       { path: 'crear-partido', component: CrearPartido },
       { path: 'perfil', component: Perfil },
+      { path: 'notificaciones', component: Notificaciones }, 
     ],
   },
 

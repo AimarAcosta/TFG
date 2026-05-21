@@ -17,6 +17,36 @@
         background: var(--bg-main);
         padding: 1rem;
         border-radius: 8px;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--border);
+        text-align: center;
+      "
+    >
+      <span style="color: var(--text-muted); font-size: 0.9rem">
+        {{ idioma.idiomaActual() === 'ES' ? 'Nivel de Deportividad medio:' :
+        'Kiroltasun maila orokorra:' }}
+      </span>
+      <div
+        style="
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: #f59e0b;
+          margin-top: 0.5rem;
+        "
+      >
+        ⭐ {{ notaMedia }} / 5.0
+      </div>
+      <small style="color: var(--text-muted)">
+        ({{ votosTotales }} {{ idioma.idiomaActual() === 'ES' ? 'valoraciones' :
+        'balorazio' }})
+      </small>
+    </div>
+
+    <div
+      style="
+        background: var(--bg-main);
+        padding: 1rem;
+        border-radius: 8px;
         margin-bottom: 2rem;
         border: 1px solid var(--border);
         text-align: center;
@@ -53,10 +83,10 @@
     }
 
     <div class="form-group">
-      <label
-        >{{ idioma.idiomaActual() === 'ES' ? 'Cambiar Posición Preferida' :
-        'Posizio Kuttuna Aldatu' }}</label
-      >
+      <label>
+        {{ idioma.idiomaActual() === 'ES' ? 'Cambiar Posición Preferida' :
+        'Posizio Kuttuna Aldatu' }}
+      </label>
       <select
         [(ngModel)]="posicion"
         class="input-field"
