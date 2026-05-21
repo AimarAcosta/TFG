@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
 import {
@@ -97,6 +97,7 @@ export class Notificaciones implements OnInit {
   private auth = inject(Auth);
   private notificacionService = inject(NotificacionService);
   public idioma = inject(IdiomaService);
+  private cdr = inject(ChangeDetectorRef);
 
   alertas: Notificacion[] = [];
 
@@ -106,6 +107,7 @@ export class Notificaciones implements OnInit {
       this.alertas = await this.notificacionService.getNotificaciones(
         user.email,
       );
+      this.cdr.detectChanges();
     }
   }
 
@@ -113,6 +115,7 @@ export class Notificaciones implements OnInit {
     if (notif.id) {
       await this.notificacionService.marcarComoLeida(notif.id);
       notif.leida = true;
+      this.cdr.detectChanges();
     }
   }
 }

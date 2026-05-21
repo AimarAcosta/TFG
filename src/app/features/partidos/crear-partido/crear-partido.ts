@@ -73,6 +73,7 @@ export class CrearPartido {
         posiciones_necesitadas: this.partido.posiciones_necesitadas,
         creador_email: this.auth.currentUser.email,
         jugadores_inscritos: [this.auth.currentUser.email],
+        estado: 'abierto' 
       } as any);
 
       this.router.navigate(["/app/dashboard"]);
