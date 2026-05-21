@@ -2,10 +2,11 @@
   <div style="position: absolute; top: 20px; right: 20px">
     <button
       class="btn"
-      style="padding: 0.5rem 1rem; border-radius: 20px"
+      style="padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem"
       (click)="idioma.toggle()"
     >
-      🌐 {{ idioma.idiomaActual() }}
+      🌐 {{ idioma.idiomaActual() }} / {{ idioma.idiomaActual() === 'ES' ? 'EU'
+      : 'ES' }}
     </button>
   </div>
 
@@ -15,15 +16,22 @@
       <h1>Matchday Hero</h1>
     </div>
 
+    <p class="subtitle" style="text-align: center; margin-bottom: 2rem">
+      {{ idioma.idiomaActual() === 'ES' ? 'Entra al mercado de fichajes' :
+      'Sartu fitxaketen merkatura' }}
+    </p>
+
     @if (errorMessage) {
     <div
       class="alert-error"
       style="
         color: #ef4444;
         border: 1px solid #ef4444;
-        padding: 0.5rem;
+        padding: 0.75rem;
+        border-radius: 8px;
         text-align: center;
         margin-bottom: 1rem;
+        font-weight: bold;
       "
     >
       {{ errorMessage }}
@@ -36,7 +44,8 @@
         [(ngModel)]="email"
         name="email"
         class="input-field"
-        placeholder="Correo"
+        [placeholder]="idioma.idiomaActual() === 'ES' ? 'Correo' : 'Posta elektronikoa'"
+        style="margin-bottom: 1rem"
         required
       />
       <input
@@ -44,19 +53,32 @@
         [(ngModel)]="password"
         name="password"
         class="input-field"
-        placeholder="Contraseña"
+        [placeholder]="idioma.idiomaActual() === 'ES' ? 'Contraseña' : 'Pasahitza'"
+        style="margin-bottom: 1rem"
         required
       />
 
       <button type="submit" class="btn full-width" [disabled]="isLoading">
-        {{ isLoading ? 'Entrando...' : 'Saltar al campo' }}
+        {{ idioma.idiomaActual() === 'ES' ? (isLoading ? 'Comprobando
+        tácticas...' : 'Saltar al campo') : (isLoading ? 'Egiaztatzen...' :
+        'Zelaira salto egin') }}
       </button>
 
-      <p style="text-align: center; margin-top: 1rem">
-        ¿No tienes cuenta?
-        <a routerLink="/register" style="color: var(--primary)"
-          >Regístrate aquí</a
+      <p style="text-align: center; margin-top: 1.5rem">
+        {{ idioma.idiomaActual() === 'ES' ? '¿No tienes cuenta?' : 'Ez daukazu
+        konturik?' }}
+        <br />
+        <a
+          routerLink="/register"
+          style="
+            color: var(--primary);
+            font-weight: bold;
+            text-decoration: none;
+          "
         >
+          {{ idioma.idiomaActual() === 'ES' ? 'Regístrate aquí' : 'Erregistratu
+          hemen' }}
+        </a>
       </p>
     </form>
   </div>
